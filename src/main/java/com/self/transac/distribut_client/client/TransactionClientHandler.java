@@ -7,13 +7,15 @@ import com.self.transac.distribut_client.transactional.DistributTransactionManag
 import com.self.transac.distribut_client.transactional.TransactionType;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 
-import static com.self.transac.distribut_client.transactional.DistributTransactionManager.*;
 
-public class TransactionClientHandler extends ChannelInboundHandlerAdapter {
+public class TransactionClientHandler extends SimpleChannelInboundHandler {
 
 
     private ChannelHandlerContext context;
+
+
     public void channelActive( ChannelHandlerContext ctx ){
         System.out.println( ctx );
         context = ctx;
@@ -22,6 +24,12 @@ public class TransactionClientHandler extends ChannelInboundHandlerAdapter {
 
 
     public synchronized void channelRead(ChannelHandlerContext ctx , Object msg ) throws Exception{
+
+
+    }
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         //有服务端告知状态
         System.out.println( "接收数据" + msg );
         JSONObject jsonObject = JSON.parseObject( (String) msg );
@@ -38,12 +46,11 @@ public class TransactionClientHandler extends ChannelInboundHandlerAdapter {
         }
         //唤醒
         txTransaction.getTask().signalTask();
-
     }
 
 
     public synchronized Object call( JSONObject data ){
-        context.writeAndFlush( data.toJSONString() );
+        context.channel().writeAndFlush( data.toJSONString() );
         return null;
     }
 }
