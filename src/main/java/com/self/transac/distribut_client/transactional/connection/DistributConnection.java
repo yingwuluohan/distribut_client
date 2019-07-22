@@ -72,6 +72,8 @@ public class DistributConnection extends BaceConnection< Connection > implements
 
             }
         }).start();
+
+        System.out.println("事务提交，线程是:：" +Thread.currentThread().getName() );
         connection.commit();
     }
 
