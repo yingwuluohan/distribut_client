@@ -17,16 +17,24 @@ import java.util.concurrent.Executors;
 @Component
 public class TransactionClient implements InitializingBean {
 
-    public TransactionClientHandler client;
+    public static TransactionClientHandler client;
 
     private static ExecutorService executorService = Executors.newCachedThreadPool();
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        start( "127.0.0.1" , 8888 );
+
     }
 
-    public void start( String hostName , Integer port ) throws InterruptedException {
+    static {
+        try {
+            start( "127.0.0.1" , 8888 );
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void start( String hostName , Integer port ) throws InterruptedException {
         client = new TransactionClientHandler();
 
         EventLoopGroup eventGroup = new NioEventLoopGroup();
