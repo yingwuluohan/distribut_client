@@ -16,18 +16,20 @@ public class TransactionClientHandler extends SimpleChannelInboundHandler {
     private ChannelHandlerContext context;
 
 
+    @Override
     public void channelActive( ChannelHandlerContext ctx ){
-        System.out.println( ctx );
+        System.out.println( "**************客户端建立连接***************"+ctx.channel().remoteAddress() );
         context = ctx;
+        ctx.fireChannelActive();
     }
 
-
-
+    /** */
+    @Override
     public synchronized void channelRead(ChannelHandlerContext ctx , Object msg ) throws Exception{
-
+        System.out.println( "************客户端收到消息:***************" + msg );
 
     }
-
+    /** */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         //有服务端告知状态

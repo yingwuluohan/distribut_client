@@ -16,7 +16,7 @@ import java.util.concurrent.Executor;
 /**
  * 怎样获取连接
  */
-public class DistributConnection extends BaceConnection< Connection > implements Connection  {
+public class DistributConnection extends BaceConnection< Connection > implements Connection   {
 
 
 
@@ -27,12 +27,12 @@ public class DistributConnection extends BaceConnection< Connection > implements
     private Transact transact;
 
 
-
+    @Override
     public void commit( Connection connection ) throws SQLException {
         connection.commit();
     }
 
-
+    @Override
     public void rollback( Connection connection ) throws SQLException {
         connection.rollback();
     }
@@ -52,11 +52,12 @@ public class DistributConnection extends BaceConnection< Connection > implements
         //等通知
         System.out.println( "test comit");
         //等待,新开启一个线程 拿结果
-
+        connection.setAutoCommit(false);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 System.out.println( "连接等待-------" );
+
                 disTransaction.getTask().waitTask();
                 //怎样拿到结果，
                 try{

@@ -2,6 +2,7 @@ package com.self.transac.distribut_client.transactional.connection;
 
 import com.self.transac.distribut_client.decorator.Transact;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
