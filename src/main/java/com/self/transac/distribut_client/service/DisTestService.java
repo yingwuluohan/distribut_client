@@ -9,23 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+//@Service
 public class DisTestService {
 
     private ThreadLocal<TransactionInfo > threadLocal = new ThreadLocal();
     private HttpRequestUtil request = new HttpRequestUtil();
 
-    @Autowired
+//    @Autowired
     private TransactionDao transactionDao;
 
-    @Autowired
+//    @Autowired
     private TransacService transacService;
 
 
-    @DistributTransactional( isStart = true )
+//    @DistributTransactional( isStart = true )
     public void updateDisInfo(){
 
-        request.sendGet( "http://10.200.8.173:8090/dis/initclient" , 5000 );
+//        request.sendGet( "http://10.200.8.173:8090/dis/initclient" , 5000 );
         transactionDao.updateInfo( 12 );
         System.out.println( "--------------" );
         transacService.updateItem();

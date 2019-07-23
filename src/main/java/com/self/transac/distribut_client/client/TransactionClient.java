@@ -30,7 +30,7 @@ public class TransactionClient implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         try {
-            start( "127.0.0.1" , 8888 );
+            start( "10.200.16.36" , 8888 );
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

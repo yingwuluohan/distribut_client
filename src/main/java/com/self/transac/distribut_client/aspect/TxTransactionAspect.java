@@ -47,6 +47,7 @@ public class TxTransactionAspect implements Ordered {
             DistributTransactionManager.addLbTransaction( txTransaction , txTransactional.isEnd() , TransactionType.comit);
         } catch (Throwable throwable) {
             DistributTransactionManager.addLbTransaction( txTransaction , txTransactional.isEnd() ,TransactionType.rollback );
+            System.out.println( "---------------客户端事务异常-------------" );
             throwable.printStackTrace();
         }
 

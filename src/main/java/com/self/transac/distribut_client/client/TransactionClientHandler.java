@@ -27,7 +27,7 @@ public class TransactionClientHandler extends SimpleChannelInboundHandler<String
 
     /** */
     @Override
-    public synchronized void channelRead(ChannelHandlerContext ctx , Object msg ) throws Exception{
+    public synchronized void channelRead(ChannelHandlerContext ctx1 , Object msg ) throws Exception{
         System.out.println( "************channelRead 客户端收到消息:***************" + msg );
         //有服务端告知状态
         System.out.println( "接收数据" + msg );
@@ -62,6 +62,7 @@ public class TransactionClientHandler extends SimpleChannelInboundHandler<String
     public synchronized Object call( JSONObject data ){
         ChannelFuture channelFuture = context.channel().writeAndFlush( data.toJSONString() );
 //        context.channel().writeAndFlush(  "123456789" );
+        System.out.println( "向服务端发送：" + data);
         return channelFuture;
     }
 }

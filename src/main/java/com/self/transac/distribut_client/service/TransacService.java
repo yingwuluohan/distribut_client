@@ -16,7 +16,7 @@ public class TransacService {
      * 更新消息
      * @return
      */
-    @DistributTransactional( )
+   // @DistributTransactional( )
     public Boolean updateItem(){
         transacSecendDao.updateItem();
         int i = 100;
@@ -28,7 +28,7 @@ public class TransacService {
      *
      * @return
      */
-    @DistributTransactional( )
+    @DistributTransactional(isStart = true )
     public Boolean rpcUpdate() throws Exception{
         transacSecendDao.updateBanItem();
         int i = 100;

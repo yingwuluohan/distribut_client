@@ -68,8 +68,11 @@ public class DistributConnection extends BaceConnection< Connection > implements
                     System.out.println( "连接获取锁:" + disTransaction.getGroupId() );
                     if( disTransaction.getTransactionType().equals( TransactionType.comit )){
                         connection.commit();
+                        System.out.println("-------client事务提交-------");
                     }else {
                         connection.rollback();
+                        System.out.println("-------client事务回滚-------");
+
                     }
                     connection.close();
                 }catch ( SQLException e ){
