@@ -1,13 +1,19 @@
 package com.self.transac.distribut_client.client;
 
 import com.alibaba.fastjson.JSONObject;
+import com.self.transac.distribut_client.common.de_en_code.DataDecoder;
+import com.self.transac.distribut_client.common.de_en_code.DataEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldPrepender;
+import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
@@ -23,10 +29,6 @@ public class TransactionClient implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-
-    }
-
-    static {
         try {
             start( "127.0.0.1" , 8888 );
         } catch (InterruptedException e) {
@@ -36,7 +38,6 @@ public class TransactionClient implements InitializingBean {
 
     public static void start( String hostName , Integer port ) throws InterruptedException {
         client = new TransactionClientHandler();
-
         EventLoopGroup eventGroup = new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.group( eventGroup ).channel(NioSocketChannel.class ).
@@ -44,8 +45,10 @@ public class TransactionClient implements InitializingBean {
                 handler(new ChannelInitializer<SocketChannel>() {
                     protected void initChannel( SocketChannel socketChannel ) throws Exception{
                         ChannelPipeline pipeline = socketChannel.pipeline();
-                        pipeline.addLast( "decoder" , new StringDecoder());
-                        pipeline.addLast( "encoder" , new StringEncoder());
+                        pipeline.addLast( new LoggingHandler( LogLevel.DEBUG ));
+
+                        pipeline.addLast( "decoder" , new DataDecoder( Object.class ));
+                        pipeline.addLast( "encoder" , new DataEncoder( Object.class ));
                         pipeline.addLast( "handler" , client );
 
                     }

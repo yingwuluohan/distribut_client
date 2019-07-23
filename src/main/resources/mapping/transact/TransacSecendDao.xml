@@ -1,0 +1,19 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.self.transac.distribut_client.dao.TransacSecendDao">
+
+
+    <update id="updateInfo" >
+        update  app_banner_album
+        SET companyId = 1234567
+        WHERE bannerAlbumId IN (  791 , 792 ,793 );
+
+    </update>
+
+
+
+
+
+
+
+</mapper>

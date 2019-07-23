@@ -12,13 +12,18 @@ public class DisTestService {
     @Autowired
     private TransactionDao transactionDao;
 
+    @Autowired
+    private TransacService transacService;
 
-    @DistributTransactional
+
+    @DistributTransactional( isStart = true )
     public void updateDisInfo(){
 
         transactionDao.updateInfo( 12 );
+        System.out.println( "--------------" );
+        transacService.updateItem();
         int num = 0 ;
-        int result = 100/num;
+//        int result = 100/num;
 
     }
 

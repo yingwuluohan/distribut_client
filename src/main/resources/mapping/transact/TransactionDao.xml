@@ -3,9 +3,9 @@
 <mapper namespace="com.self.transac.distribut_client.dao.TransactionDao">
 
 
-    <update id="updateInfo" >
+    <update id="updateItem" >
       update  app_banner
-      SET bannerName = 'distruct'
+      SET bannerName = 'distruct111'
       WHERE bannerId IN (  300 , 301 ,302 );
 
     </update>

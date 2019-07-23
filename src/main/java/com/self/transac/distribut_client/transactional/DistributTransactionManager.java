@@ -56,7 +56,8 @@ public class DistributTransactionManager {
         jsonObject.put( "transactionType" , transactionType );
         jsonObject.put( "commond" , "add" );
         jsonObject.put( "isEnd" , isEnd );
-        jsonObject.put( "isEnd" , isEnd );
+
+
         lbTransaction.setTransactionType( transactionType );
         nettyClient.send( jsonObject );
 

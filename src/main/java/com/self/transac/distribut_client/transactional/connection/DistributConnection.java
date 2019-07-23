@@ -29,17 +29,21 @@ public class DistributConnection extends BaceConnection< Connection > implements
 
     @Override
     public void commit( Connection connection ) throws SQLException {
-        connection.commit();
+         commit();
     }
 
     @Override
     public void rollback( Connection connection ) throws SQLException {
-        connection.rollback();
+
+
+        System.out.println( "客户端事务回滚" + connection);
+         rollback();
     }
 
-    public DistributConnection(Connection connection , DistributTransaction disTransaction ) {
+    public DistributConnection(Connection connection , DistributTransaction disTransaction ) throws SQLException {
         this.connection = connection;
         this.disTransaction = disTransaction;
+        this.connection.setAutoCommit( false );
     }
 
     @Override
@@ -73,7 +77,7 @@ public class DistributConnection extends BaceConnection< Connection > implements
 
             }
         }).start();
-        connection.commit();
+        //connection.commit();
     }
 
     @Override

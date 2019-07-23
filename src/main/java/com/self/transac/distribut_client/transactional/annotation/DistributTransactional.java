@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 public @interface DistributTransactional {
 
     /** 事务开始 */
-    boolean isStart() default true;
+    boolean isStart() default false;
     /** 事务结束 */
     boolean isEnd() default true;
 

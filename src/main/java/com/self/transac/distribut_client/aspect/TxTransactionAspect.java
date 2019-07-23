@@ -32,7 +32,12 @@ public class TxTransactionAspect implements Ordered {
         String groupId = "";
         if( txTransactional.isStart() ){
             groupId = DistributTransactionManager.createTxTransactionGroup();
+        }else{
+            DistributTransaction txTransaction = DistributTransactionManager.getCurrent();
+            groupId = txTransaction.getGroupId();
         }
+        System.out.println( "-------当前线程"+ Thread.currentThread().getName() + ",groupId 是:" + groupId );
+
         DistributTransaction txTransaction = DistributTransactionManager.createLbTransaction( groupId );
 
         try {
