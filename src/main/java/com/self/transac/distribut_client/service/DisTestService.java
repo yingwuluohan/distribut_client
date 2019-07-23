@@ -3,6 +3,7 @@ package com.self.transac.distribut_client.service;
 
 import com.self.transac.distribut_client.common.modle.TransactionInfo;
 import com.self.transac.distribut_client.dao.TransactionDao;
+import com.self.transac.distribut_client.transactional.DistributTransactionManager;
 import com.self.transac.distribut_client.transactional.annotation.DistributTransactional;
 import com.self.transac.distribut_client.util.HttpRequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,14 @@ public class DisTestService {
     @DistributTransactional( isStart = true )
     public void updateDisInfo(){
 
-        request.sendGet( "http://10.200.8.173:8090/dis/initclient" , 5000 );
         transactionDao.updateInfo( 12 );
         System.out.println( "--------------" );
         transacService.updateItem();
+
+        String groupId = DistributTransactionManager.getCurrentGroupId();
+        Integer currentCount = DistributTransactionManager.getTransactionCount();
+
+        request.sendGet( "http://10.200.8.173:8090/dis/initclient" , 5000 );
         int num = 0 ;
 //        int result = 100/num;
 

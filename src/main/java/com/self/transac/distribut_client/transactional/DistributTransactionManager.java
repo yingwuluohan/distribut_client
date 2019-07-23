@@ -18,11 +18,36 @@ public class DistributTransactionManager {
 
     private static TransactionClient nettyClient;
 
+    private static ThreadLocal<String> currentGroupId = new ThreadLocal<>();
+    private static ThreadLocal<Integer>  transactionCount = new ThreadLocal<>();
+
     private static ThreadLocal<DistributTransaction> current = new ThreadLocal<>();
 
     @Autowired
     public void setNettyClient( TransactionClient nettyClient ){
         DistributTransactionManager.nettyClient = nettyClient;
+    }
+
+    public static String getCurrentGroupId() {
+        return currentGroupId.get();
+    }
+
+    public static void setCurrentGroupId(String groupId) {
+        currentGroupId.set( groupId );
+    }
+
+    public static Integer getTransactionCount() {
+        return transactionCount.get();
+    }
+
+    public static void setTransactionCount(Integer count) {
+         transactionCount.set( count );
+    }
+
+    public static synchronized Integer addTransactionCount(){
+        int i = (transactionCount.get() == null ? 0 : transactionCount.get()) + 1 ;
+        transactionCount.set( i );
+        return i;
     }
 
     public static Map<String , DistributTransaction> LB_TRANSACION_MAP = new HashMap<>();
@@ -56,6 +81,7 @@ public class DistributTransactionManager {
         jsonObject.put( "transactionType" , transactionType );
         jsonObject.put( "commond" , "add" );
         jsonObject.put( "isEnd" , isEnd );
+        jsonObject.put( "transactionCount" , getTransactionCount() );
 
 
         lbTransaction.setTransactionType( transactionType );
@@ -63,6 +89,8 @@ public class DistributTransactionManager {
 
         return null;
     }
+
+
 
 
     //通过groupID 拿到事务

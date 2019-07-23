@@ -12,6 +12,12 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 
+/**
+ * LCN 框架原理
+ * TCC框架：两阶段提交
+ * GTS框架：
+ *
+ */
 @Aspect
 @Component
 public class TxDataSourceAspect {
