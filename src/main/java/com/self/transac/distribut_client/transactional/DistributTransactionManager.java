@@ -70,6 +70,8 @@ public class DistributTransactionManager {
         LB_TRANSACION_MAP.put( groupId , lbTransaction );
         System.out.println( "创建事务" );
         current.set( lbTransaction );
+        addTransactionCount();
+        setCurrentGroupId( groupId );
         return lbTransaction;
     }
 
@@ -81,6 +83,7 @@ public class DistributTransactionManager {
         jsonObject.put( "transactionType" , transactionType );
         jsonObject.put( "commond" , "add" );
         jsonObject.put( "isEnd" , isEnd );
+        System.out.println( "当前事务数量：" + getTransactionCount());
         jsonObject.put( "transactionCount" , getTransactionCount() );
 
 

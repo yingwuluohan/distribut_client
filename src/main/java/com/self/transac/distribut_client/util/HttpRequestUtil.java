@@ -1,6 +1,7 @@
 package com.self.transac.distribut_client.util;
 
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,7 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import org.apache.log4j.Logger;
 //import org.apache.http.client.HttpClient;
 //import org.apache.http.client.methods.HttpPost;
 //import org.apache.http.chat.client.DefaultHttpClient;
@@ -20,6 +21,7 @@ import java.util.Map;
  * 封装常用的HTTP请求的GET/POST方法
  */
 public class HttpRequestUtil {
+	private static Logger log = Logger.getLogger(HttpRequestUtil.class);
 	private static final int defaultConnectTimeout = 3000;
 	private static final int defaultSocketTimeout = 5000;
 	/**
@@ -191,5 +193,61 @@ public class HttpRequestUtil {
 	}
 
 
+	public String sendGet(String url, int timeout, Map<String, Object> httpHeaders) {
+		if (url == null || url.trim().length() == 0) {
+			return null;
+		}
 
+
+		HttpURLConnection conn = null;
+		StringBuilder result = new StringBuilder();
+		try {
+			URL realUrl = new URL(url);
+			// 打开和URL之间的连接
+			conn = (HttpURLConnection) realUrl.openConnection();
+			// 设置通用的请求属性
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("accept", "*/*");
+			conn.setRequestProperty("connection", "close");
+//            conn.setRequestProperty("Charsert", "UTF-8"); //设置请求编码
+			conn.setRequestProperty("Content-Type", "plain/text; charset=UTF-8");
+			conn.setConnectTimeout(timeout);
+
+			// 设置HTTP头信息
+			if (httpHeaders != null && httpHeaders.size() > 0) {
+				for (String key : httpHeaders.keySet()) {
+					String value = (String)httpHeaders.get(key);
+					if (key == null || key.trim().length() == 0 || value == null || value.trim().length() == 0) {
+						continue;
+					}
+					conn.addRequestProperty(key, value);
+				}
+			}
+
+			// 建立实际的连接
+			conn.connect();
+			// 定义 BufferedReader输入流来读取URL的响应
+			try(BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));){
+				String line;
+				while ((line = in.readLine()) != null) {
+					result.append(line);
+				}
+			}
+
+		} catch (Exception e) {
+			log.error("发送GET请求过程中出错：" + e.getMessage(), e);
+		} finally {
+			try {
+				if (conn != null) {
+					conn.disconnect();
+					conn = null;
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+
+		return result.toString();
+//        return new String ( bytes );
+	}
 }

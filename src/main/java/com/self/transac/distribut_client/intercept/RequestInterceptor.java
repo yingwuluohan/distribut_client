@@ -22,8 +22,8 @@ public class RequestInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request , HttpServletResponse response , Object Handler ){
 
         String groupId = request.getHeader( "groupId" );
-
         String transactionCount = request.getHeader( "transactionCount" );
+        //TODO 设置上个系统产生的事务个数，在此基础上继续累加
         DistributTransactionManager.setCurrentGroupId( groupId );
         DistributTransactionManager.setTransactionCount( Integer.valueOf(
                 null != transactionCount ?transactionCount : "0" ));

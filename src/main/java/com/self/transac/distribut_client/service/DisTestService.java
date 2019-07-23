@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 //@Service
-public class DisTestService {
+public class DisTestService extends BaseService{
 
     private ThreadLocal<TransactionInfo > threadLocal = new ThreadLocal();
     private HttpRequestUtil request = new HttpRequestUtil();
@@ -32,8 +34,9 @@ public class DisTestService {
 
         String groupId = DistributTransactionManager.getCurrentGroupId();
         Integer currentCount = DistributTransactionManager.getTransactionCount();
-
-        request.sendGet( "http://10.200.8.173:8090/dis/initclient" , 5000 );
+        Map<String , Object > map = requestHeader( groupId , currentCount );
+        request.sendGet( "http://10.200.8.173:8090/dis/initclient" , 5000 ,
+                map );
         int num = 0 ;
 //        int result = 100/num;
 
