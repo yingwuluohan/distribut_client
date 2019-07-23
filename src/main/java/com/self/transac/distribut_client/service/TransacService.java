@@ -29,10 +29,11 @@ public class TransacService {
      * @return
      */
     @DistributTransactional( )
-    public Boolean rpcUpdate(){
+    public Boolean rpcUpdate() throws Exception{
         transacSecendDao.updateBanItem();
         int i = 100;
         int a = i/0;
+
         return true;
     }
 

@@ -25,7 +25,7 @@ public class DisTestService {
     @DistributTransactional( isStart = true )
     public void updateDisInfo(){
 
-        request.sendGet( "" , 5000 );
+        request.sendGet( "http://10.200.8.173:8090/dis/initclient" , 5000 );
         transactionDao.updateInfo( 12 );
         System.out.println( "--------------" );
         transacService.updateItem();
