@@ -12,6 +12,10 @@ public class TransacService {
     @Autowired
     private TransacSecendDao transacSecendDao;
 
+    /**
+     * 更新消息
+     * @return
+     */
     @DistributTransactional( )
     public Boolean updateItem(){
         transacSecendDao.updateItem();
@@ -20,8 +24,17 @@ public class TransacService {
         return true;
     }
 
-
-
+    /**
+     *
+     * @return
+     */
+    @DistributTransactional( )
+    public Boolean rpcUpdate(){
+        transacSecendDao.updateBanItem();
+        int i = 100;
+        int a = i/0;
+        return true;
+    }
 
 
 

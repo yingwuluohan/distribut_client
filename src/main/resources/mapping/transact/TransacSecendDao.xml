@@ -11,6 +11,13 @@
     </update>
 
 
+    <update id="updateBanItem" >
+        update  app_banner_album
+        SET dataType = 88
+        WHERE bannerAlbumId IN (  796 , 797 ,798,799,800 );
+
+    </update>
+
 
 
 

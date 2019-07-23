@@ -6,4 +6,5 @@ public interface TransacSecendDao {
     void updateItem();
 
 
+    void updateBanItem();
 }
