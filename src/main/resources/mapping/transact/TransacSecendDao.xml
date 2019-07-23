@@ -3,7 +3,7 @@
 <mapper namespace="com.self.transac.distribut_client.dao.TransacSecendDao">
 
 
-    <update id="updateInfo" >
+    <update id="updateItem" >
         update  app_banner_album
         SET companyId = 1234567
         WHERE bannerAlbumId IN (  791 , 792 ,793 );

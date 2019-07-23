@@ -33,8 +33,8 @@ public class TxTransactionAspect implements Ordered {
         if( txTransactional.isStart() ){
             groupId = DistributTransactionManager.createTxTransactionGroup();
         }else{
-            DistributTransaction txTransaction = DistributTransactionManager.getCurrent();
-            groupId = txTransaction.getGroupId();
+
+            groupId = DistributTransactionManager.getCurrentGroupId();
         }
         System.out.println( "-------当前线程"+ Thread.currentThread().getName() + ",groupId 是:" + groupId );
 
@@ -43,6 +43,8 @@ public class TxTransactionAspect implements Ordered {
         try {
             // 走spring的逻辑 ，比spring优先级低
             point.proceed();
+            //TODO  一个对象要在同一个线程里面两个不同的方法里面共享，
+            //TODO 即：上面的createLbTransaction和TxDataSourceAspect类里面的方法，需要用到 ThreadLocal
 
             DistributTransactionManager.addLbTransaction( txTransaction , txTransactional.isEnd() , TransactionType.comit);
         } catch (Throwable throwable) {

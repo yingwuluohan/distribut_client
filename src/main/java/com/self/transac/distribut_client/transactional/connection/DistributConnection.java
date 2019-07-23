@@ -43,7 +43,6 @@ public class DistributConnection extends BaceConnection< Connection > implements
     public DistributConnection(Connection connection , DistributTransaction disTransaction ) throws SQLException {
         this.connection = connection;
         this.disTransaction = disTransaction;
-        this.connection.setAutoCommit( false );
     }
 
     @Override
@@ -67,6 +66,7 @@ public class DistributConnection extends BaceConnection< Connection > implements
                 try{
                     System.out.println( "连接获取锁:" + disTransaction.getGroupId() );
                     if( disTransaction.getTransactionType().equals( TransactionType.comit )){
+                        System.out.println( "------client事务最后提交-----" );
                         connection.commit();
                         System.out.println("-------client事务提交-------");
                     }else {

@@ -20,7 +20,7 @@ public class TransacService {
     public Boolean updateItem(){
         transacSecendDao.updateItem();
         int i = 100;
-        int a = i/0;
+//        int a = i/0;
         return true;
     }
 
