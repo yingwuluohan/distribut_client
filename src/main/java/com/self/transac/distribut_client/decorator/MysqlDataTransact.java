@@ -16,5 +16,24 @@ public class MysqlDataTransact extends DataTransact {
     public MysqlDataTransact( Transact transact ) throws SQLException {
 
         super.manageTransaction( baceConnection );
+        this.manageTransaction( baceConnection );
     }
+
+    @Override
+    public void manageTransaction(BaceConnection baceConnection) throws SQLException {
+        baceConnection.commit( baceConnection );
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
