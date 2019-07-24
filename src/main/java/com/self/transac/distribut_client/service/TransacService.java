@@ -16,7 +16,7 @@ public class TransacService {
      * 更新消息
      * @return
      */
-   // @DistributTransactional( )
+    @DistributTransactional( )
     public Boolean updateItem(){
         transacSecendDao.updateItem();
         int i = 100;
