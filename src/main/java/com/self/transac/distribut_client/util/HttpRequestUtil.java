@@ -8,13 +8,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Map;
 import org.apache.log4j.Logger;
-//import org.apache.http.client.HttpClient;
-//import org.apache.http.client.methods.HttpPost;
-//import org.apache.http.chat.client.DefaultHttpClient;
+
 
 
 /**
