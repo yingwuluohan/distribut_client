@@ -12,20 +12,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
-//@Service
+@Service
 public class DisTestService extends BaseService{
 
     private ThreadLocal<TransactionInfo > threadLocal = new ThreadLocal();
     private HttpRequestUtil request = new HttpRequestUtil();
 
-//    @Autowired
+    @Autowired
     private TransactionDao transactionDao;
 
-//    @Autowired
+    @Autowired
     private TransacService transacService;
 
 
-//    @DistributTransactional( isStart = true )
+    @DistributTransactional( isStart = true )
     public void updateDisInfo(){
 
         transactionDao.updateInfo( 12 );

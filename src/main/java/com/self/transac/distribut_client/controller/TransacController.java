@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 public class TransacController {
 
 
-//    @Autowired
+    @Autowired
     private DisTestService disTestService;
     @Autowired
     private TransacService transacService;

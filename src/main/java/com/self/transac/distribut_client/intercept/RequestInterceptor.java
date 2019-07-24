@@ -1,6 +1,7 @@
 package com.self.transac.distribut_client.intercept;
 
 import com.self.transac.distribut_client.transactional.DistributTransactionManager;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,14 +20,19 @@ public class RequestInterceptor implements HandlerInterceptor {
 
 
     @Override
-    public boolean preHandle(HttpServletRequest request , HttpServletResponse response , Object Handler ){
+    public boolean preHandle(@Nullable HttpServletRequest request , @Nullable HttpServletResponse response , @Nullable Object Handler ){
 
         String groupId = request.getHeader( "groupId" );
         String transactionCount = request.getHeader( "transactionCount" );
         //TODO 设置上个系统产生的事务个数，在此基础上继续累加
-        DistributTransactionManager.setCurrentGroupId( groupId );
-        DistributTransactionManager.setTransactionCount( Integer.valueOf(
-                null != transactionCount ?transactionCount : "0" ));
+        if( null != groupId ){
+            DistributTransactionManager.setCurrentGroupId( groupId );
+        }
+        if( null != transactionCount ){
+            DistributTransactionManager.setTransactionCount( Integer.valueOf(
+                    null != transactionCount ?transactionCount : "0" ));
+        }
+
         return true;
     }
 
@@ -35,7 +41,9 @@ public class RequestInterceptor implements HandlerInterceptor {
                            ModelAndView modelAndView ){
 
     }
-
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
+                                @Nullable Exception ex) throws Exception {
+    }
 
 
 
