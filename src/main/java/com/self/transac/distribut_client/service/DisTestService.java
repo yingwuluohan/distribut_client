@@ -29,12 +29,14 @@ public class DisTestService extends BaseService{
     public void updateDisInfo(){
 
         transactionDao.updateInfo( 12 );
-        System.out.println( "--------------" );
+        System.out.println( "--------------1" );
         transacService.updateItem();
-
+        System.out.println( "--------------2" );
         String groupId = DistributTransactionManager.getCurrentGroupId();
         Integer currentCount = DistributTransactionManager.getTransactionCount();
+        System.out.println( "--------------3" );
         Map<String , Object > map = requestHeader( groupId , currentCount );
+        System.out.println( "--------------4" );
         request.sendGet( "http://10.200.8.173:8090/dis/initclient" , 5000 ,
                 map );
         int num = 0 ;

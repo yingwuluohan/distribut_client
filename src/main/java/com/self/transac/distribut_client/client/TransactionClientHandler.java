@@ -42,6 +42,8 @@ public class TransactionClientHandler extends SimpleChannelInboundHandler<String
             txTransaction.setTransactionType(TransactionType.rollback );
         }else if( command.equals( "commit" )){
             txTransaction.setTransactionType(TransactionType.comit );
+        }else if( command.equals( "add" )){
+            txTransaction.setTransactionType(TransactionType.add );
         }
         //唤醒
         txTransaction.getTask().signalTask();
