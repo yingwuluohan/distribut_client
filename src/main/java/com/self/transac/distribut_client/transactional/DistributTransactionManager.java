@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class DistributTransactionManager {
@@ -50,7 +51,7 @@ public class DistributTransactionManager {
         return i;
     }
 
-    public static Map<String , DistributTransaction> LB_TRANSACION_MAP = new HashMap<>();
+    public static Map<String , DistributTransaction> LB_TRANSACION_MAP = new ConcurrentHashMap<>();
 
 
     public static String createTxTransactionGroup(){

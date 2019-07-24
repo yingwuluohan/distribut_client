@@ -29,6 +29,7 @@ public class DistributConnection extends BaceConnection< Connection > implements
 
     @Override
     public void commit( Connection connection ) throws SQLException {
+        System.out.println( "************ 抽象类connection commit**************" );
          commit();
     }
 
@@ -43,6 +44,7 @@ public class DistributConnection extends BaceConnection< Connection > implements
     public DistributConnection(Connection connection , DistributTransaction disTransaction ) throws SQLException {
         this.connection = connection;
         this.disTransaction = disTransaction;
+        this.connection.setAutoCommit(false);
     }
 
     @Override
@@ -55,14 +57,16 @@ public class DistributConnection extends BaceConnection< Connection > implements
         //等通知
         System.out.println( "test comit");
         //等待,新开启一个线程 拿结果
+        System.out.println( "connection.getAutoCommit:" + connection.getAutoCommit() );
         connection.setAutoCommit(false);
+        System.out.println( "connection.getAutoCommit:" + connection.getAutoCommit() );
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 System.out.println( "连接等待-------" );
-
                 disTransaction.getTask().waitTask();
-                //怎样拿到结果，
+                //怎样拿到结果
                 try{
                     System.out.println( "连接获取锁:" + disTransaction.getGroupId() );
                     if( disTransaction.getTransactionType().equals( TransactionType.comit )){
@@ -70,14 +74,26 @@ public class DistributConnection extends BaceConnection< Connection > implements
                         connection.commit();
                         System.out.println("-------client事务提交-------");
                     }else {
-                        connection.rollback();
                         System.out.println("-------client事务回滚-------");
-
+                        connection.rollback();
                     }
                     connection.close();
                 }catch ( SQLException e ){
+                    try {
+                        if( null != connection)
+                         connection.rollback();
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                }finally{
+                  if(connection!=null) {
+                      try {
+                          connection.close();
+                      } catch (SQLException e) {
+                          e.printStackTrace();
+                      }
+                  }
                 }
-
             }
         }).start();
         System.out.println("事务提交，线程是:：" +Thread.currentThread().getName() );
@@ -120,7 +136,7 @@ public class DistributConnection extends BaceConnection< Connection > implements
 
     @Override
     public void setAutoCommit(boolean autoCommit) throws SQLException {
-        connection.setAutoCommit( false );
+        connection.setAutoCommit( autoCommit );
     }
 
 

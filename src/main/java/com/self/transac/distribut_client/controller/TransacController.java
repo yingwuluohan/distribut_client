@@ -27,7 +27,11 @@ public class TransacController {
     @RequestMapping( value="/transac" ,method= RequestMethod.GET )
     public String goHttpChat( HttpServletRequest request ){
 
-        disTestService.updateDisInfo();
+        try {
+            disTestService.updateDisInfo();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "chat";
     }
 
