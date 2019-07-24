@@ -79,8 +79,9 @@ public class DistributConnection extends BaceConnection< Connection > implements
                     }
                     connection.close();
                 }catch ( SQLException e ){
+                    e.printStackTrace();
                     try {
-                        if( null != connection)
+                        if( null != connection )
                          connection.rollback();
                     } catch (SQLException e1) {
                         e1.printStackTrace();
