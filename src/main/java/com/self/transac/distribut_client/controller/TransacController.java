@@ -43,6 +43,8 @@ public class TransacController {
     @RequestMapping( value="/initclient" ,method= RequestMethod.GET )
     public String initNettyClient() throws Exception {
         try {
+
+            System.out.println( " RPC get 请求，线程是:" + Thread.currentThread().getName() );
             transacService.rpcUpdate();
         } catch (Exception e) {
             e.printStackTrace();
