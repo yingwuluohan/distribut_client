@@ -28,7 +28,7 @@ public class TransacService {
      *
      * @return
      */
-    @DistributTransactional(isStart = true ,isEnd = true )
+    @DistributTransactional( isEnd = true )
     public Boolean rpcUpdate() throws Exception{
         transacSecendDao.updateBanItem();
         int i = 100;
