@@ -35,10 +35,9 @@ public class DisTestService extends BaseService{
         String groupId = DistributTransactionManager.getCurrentGroupId();
         Integer currentCount = DistributTransactionManager.getTransactionCount();
         System.out.println( "--------------3" );
-        Map<String , Object > map = requestHeader( groupId , currentCount );
+        Map<String , String > map = requestHeader( groupId , currentCount );
         System.out.println( "--------------4" );
-        request.sendGet( "http://10.200.8.173:8090/dis/initclient" , 5000 ,
-                map );
+        request.sendGet( "http://10.200.8.173:8090/dis/initclient" ,5000, map  );
         int num = 0 ;
 //        int result = 100/num;
 

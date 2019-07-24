@@ -193,7 +193,7 @@ public class HttpRequestUtil {
 	}
 
 
-	public String sendGet(String url, int timeout, Map<String, Object> httpHeaders) {
+	public String sendGet(String url, int timeout, Map<String, String> httpHeaders) {
 		if (url == null || url.trim().length() == 0) {
 			return null;
 		}
@@ -212,6 +212,7 @@ public class HttpRequestUtil {
 //            conn.setRequestProperty("Charsert", "UTF-8"); //设置请求编码
 			conn.setRequestProperty("Content-Type", "plain/text; charset=UTF-8");
 			conn.setConnectTimeout(timeout);
+
 
 			// 设置HTTP头信息
 			if (httpHeaders != null && httpHeaders.size() > 0) {
@@ -234,8 +235,18 @@ public class HttpRequestUtil {
 				}
 			}
 
+
+
+
+
+
+
+
+
+
 		} catch (Exception e) {
 			log.error("发送GET请求过程中出错：" + e.getMessage(), e);
+			e.printStackTrace();
 		} finally {
 			try {
 				if (conn != null) {

@@ -76,12 +76,12 @@ public class DistributTransactionManager {
     }
 
     /** 提交事务*/
-    public static DistributTransaction addLbTransaction(DistributTransaction lbTransaction , Boolean isEnd , TransactionType transactionType){
+    public static DistributTransaction addLbTransaction(DistributTransaction lbTransaction , Boolean isEnd , TransactionType transactionType,String commond ){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put( "groupId" , lbTransaction.getGroupId() );
         jsonObject.put( "transactionId" , lbTransaction.getTransactionId() );
         jsonObject.put( "transactionType" , transactionType );
-        jsonObject.put( "commond" , "add" );
+        jsonObject.put( "commond" , commond );
         jsonObject.put( "isEnd" , isEnd );
         System.out.println( "当前事务数量：" + getTransactionCount());
         jsonObject.put( "transactionCount" , getTransactionCount() );

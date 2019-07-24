@@ -10,10 +10,10 @@ import java.util.Map;
 public abstract class BaseService {
 
 
-    public Map<String,Object> requestHeader(String groupId , int transactionCount ){
-        Map<String,Object> header = new HashMap<>();
+    public Map<String,String> requestHeader(String groupId , int transactionCount ){
+        Map<String,String> header = new HashMap<>();
         header.put("groupId", groupId);
-        header.put("transactionCount", transactionCount );
+        header.put("transactionCount", transactionCount+"" );
 
         return header;
     }
