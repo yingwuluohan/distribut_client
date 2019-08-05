@@ -32,7 +32,7 @@ public class TransacService {
     public Boolean rpcUpdate() throws Exception{
         transacSecendDao.updateBanItem();
         int i = 100;
-        int a = i/0;
+//        int a = i/0;
 
         return true;
     }
