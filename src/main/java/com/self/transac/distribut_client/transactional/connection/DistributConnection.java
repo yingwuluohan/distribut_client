@@ -2,6 +2,8 @@ package com.self.transac.distribut_client.transactional.connection;
 
 
 
+import com.alibaba.druid.pool.DruidConnectionHolder;
+import com.alibaba.druid.pool.DruidPooledConnection;
 import com.self.transac.distribut_client.decorator.Transact;
 import com.self.transac.distribut_client.transactional.DistributTransaction;
 import com.self.transac.distribut_client.transactional.TransactionType;
@@ -27,6 +29,8 @@ public class DistributConnection extends BaceConnection< Connection > implements
     private Transact transact;
 
 
+
+
     @Override
     public void commit( Connection connection ) throws SQLException {
         System.out.println( "************ 抽象类connection commit**************" );
@@ -40,11 +44,14 @@ public class DistributConnection extends BaceConnection< Connection > implements
         System.out.println( "客户端事务回滚" + connection);
          rollback();
     }
-
+    private DruidPooledConnection druidPooledConnection;
+    private DruidConnectionHolder holder;
     public DistributConnection(Connection connection , DistributTransaction disTransaction ) throws SQLException {
         this.connection = connection;
         this.disTransaction = disTransaction;
-        this.connection.setAutoCommit(false);
+        this.druidPooledConnection = ( DruidPooledConnection) connection;
+        this.druidPooledConnection.setAutoCommit(false);
+        this.holder = druidPooledConnection.getConnectionHolder();
     }
 
     @Override
@@ -58,20 +65,25 @@ public class DistributConnection extends BaceConnection< Connection > implements
         System.out.println( "test comit");
         //等待,新开启一个线程 拿结果
         System.out.println( "connection.getAutoCommit:" + connection.getAutoCommit() );
-        connection.setAutoCommit(false);
+        druidPooledConnection.setAutoCommit(false);
         System.out.println( "connection.getAutoCommit:" + connection.getAutoCommit() );
 
-        new Thread(new Runnable() {
+
+         new Thread(new Runnable() {
             @Override
             public void run() {
                 System.out.println( "连接等待-------" );
-                disTransaction.getTask().waitTask();
+
+                System.out.println( "------client事务最后提交-----" + holder );
+                disTransaction.getTask().waitTask(   );
                 //怎样拿到结果
                 try{
                     System.out.println( "连接获取锁:" + disTransaction.getGroupId() );
-                    if( disTransaction.getTransactionType().equals( TransactionType.comit )){
-                        System.out.println( "------client事务最后提交-----" );
-                        connection.commit();
+                    if( disTransaction.getTransactionType().equals( TransactionType.commit )){
+                        System.out.println( "------client事务最后提交-----" + holder  );
+                        druidPooledConnection.setAutoCommit(true);
+                        holder.getConnection().commit();
+//                        connection.commit();
                         System.out.println("-------client事务提交-------");
                     }else {
                         System.out.println("-------client事务回滚-------");
@@ -98,7 +110,7 @@ public class DistributConnection extends BaceConnection< Connection > implements
             }
         }).start();
         System.out.println("事务提交，线程是:：" +Thread.currentThread().getName() );
-//        connection.commit();
+        connection.commit();
 
     }
 

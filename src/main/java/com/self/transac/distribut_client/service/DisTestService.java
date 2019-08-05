@@ -27,7 +27,7 @@ public class DisTestService extends BaseService{
     private TransacService transacService;
 
 
-    @DistributTransactional( isStart = true )
+    @DistributTransactional( isStart = true ,isEnd = true)
     public void updateDisInfo() throws Exception {
 
         transactionDao.updateInfo( 12 );
@@ -39,13 +39,13 @@ public class DisTestService extends BaseService{
         System.out.println( "--------------3" );
         Map<String , String > map = requestHeader( groupId , currentCount );
         System.out.println( "--------------4" );
-        try{
-            request.sendGet( "http://10.200.8.173:8090/dis/initclient" ,5000, map  );
-        }catch (Exception e ){
-            e.printStackTrace();
-            System.out.println( "RPC 异常" );
-            throw new Exception( e );
-        }
+//        try{
+//            request.sendGet( "http://10.200.8.173:8090/dis/initclient" ,5000, map  );
+//        }catch (Exception e ){
+//            e.printStackTrace();
+//            System.out.println( "RPC 异常" );
+//            throw new Exception( e );
+//        }
         int num = 0 ;
 //        int result = 100/num;
 

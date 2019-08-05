@@ -47,7 +47,7 @@ public class TxTransactionAspect implements Ordered {
             //TODO  一个对象要在同一个线程里面两个不同的方法里面共享
             //TODO 即：上面的createLbTransaction和TxDataSourceAspect类里面的方法，需要用到 ThreadLocal
 
-            DistributTransactionManager.addLbTransaction( txTransaction , txTransactional.isEnd() , TransactionType.comit , CommonConstance.TRANSACT_ADD);
+            DistributTransactionManager.addLbTransaction( txTransaction , txTransactional.isEnd() , TransactionType.commit , CommonConstance.TRANSACT_ADD);
         } catch (Throwable throwable) {
             DistributTransactionManager.addLbTransaction( txTransaction , txTransactional.isEnd() ,TransactionType.rollback , CommonConstance.TRANSACT_ADD);
             System.out.println( "---------------客户端事务异常-------------" );
